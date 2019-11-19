@@ -37,9 +37,9 @@ services:
        - ./MANIFEST.in:/home/code/MANIFEST.in
 
     # command:  python -m pymindmap --mindmappath=pymindmap/resources/minders --port=5555 --picturepath=pymindmap/resources/pictures
-    command:  python -m pymindmap 
+    # command:  python -m pymindmap 
     
-    # command:  top
+    command:  top
     ports:
       - 5555:5555
 

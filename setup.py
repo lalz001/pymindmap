@@ -31,7 +31,7 @@ def get_requirements():
 
 setup(
     name='pymindmap',
-    version='1.0.0',
+    version='1.0.2',
     description='Python Mindmap',
     long_description=open('README.md').read(),
     author='lalz',

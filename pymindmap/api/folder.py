@@ -83,7 +83,7 @@ class folder(tornado.web.RequestHandler):
             a = {'folder':get_filetrunk(mindmappath)}
         self.finish(a)  
     def post(self):
-        body = json.loads(self.request.body)
+        body = json.loads(self.request.body.decode())
         name = body["name"]
         path = body["path"]
         method = body["method"]

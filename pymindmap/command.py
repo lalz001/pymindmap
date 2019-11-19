@@ -48,7 +48,7 @@ class MindmapCommand(object):
     def runningpool(self, argv):
         if 'ps' in argv:
             a = HTTPClient().fetch("http://localhost:%s/api/exec"%default_options.port)
-            for each in json.loads(a.body)["runningpool"]:
+            for each in json.loads(a.body.decode())["runningpool"]:
                 print(each, file = self.stdout)
             sys.exit(0)
     def killrunning(self, argv):
@@ -57,7 +57,7 @@ class MindmapCommand(object):
                 HTTPClient().fetch("http://localhost:{port}/api/exec/{key}".format(port=default_options.port,key=argv[2]),method="DELETE")
             if len(argv)==2:
                 a = HTTPClient().fetch("http://localhost:%s/api/exec"%default_options.port)
-                keys = json.loads(a.body)["runningpool"]
+                keys = json.loads(a.body.decode())["runningpool"]
                 for key in keys:
                     HTTPClient().fetch("http://localhost:{port}/api/exec/{key}".format(port=default_options.port,key=key),method="DELETE")
             sys.exit(0)

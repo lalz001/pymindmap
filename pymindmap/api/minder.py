@@ -169,7 +169,7 @@ class exec(tornado.web.RequestHandler):
         if len(kityId)==0:
             return 
         kityId = kityId[0] 
-        request = json.loads(self.request.body)
+        request = json.loads(self.request.body.decode())
         id = request['id']
         code = request.get("code",'')
         # print(kityId,id)

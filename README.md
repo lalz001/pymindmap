@@ -44,6 +44,3 @@ clone到本地后执行
 ```
 python -m pymindmap --mindmappath=docs/minders --picturepath=docs/pictures
 ```
-<!-- git commit -m "first commit"
-git remote add origin https://github.com/lalz001/minder.git
-git push -u origin master -->
