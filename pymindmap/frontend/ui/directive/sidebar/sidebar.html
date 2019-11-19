@@ -1,0 +1,42 @@
+<div style="height:49px;">
+    <div class="pull-left" style="left: 10px;line-height: 32px;font-weight: bolder;">{{ 'minder' | lang: 'ui/sidebar' }}</div>
+    <!-- <div  class="pull-right" style="position: relative;">
+        <span class="glyphicon glyphicon-plus"></span> 
+    </div> -->
+    <div class="pull-right fa-chevron-right"  ng-click="refresh()">
+        <span class="glyphicon glyphicon-refresh" ></span>
+    </div>
+    <div class="pull-right btn-group-vertical" dropdown is-open="isopen">
+        <button type="button"
+                class="btn btn-default image-btn-caption dropdown-toggle"
+                title="{{ 'operate' | lang: 'ui/sidebar' }}"
+                dropdown-toggle>
+            <span class="caption">{{ 'operate' | lang: 'ui/sidebar' }}</span>
+            <span class="caret"></span>
+            <span class="sr-only">{{ 'operate' | lang: 'ui/sidebar' }}</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a href
+                   ng-click="addMinder('addfolder')">{{ 'addfolder' | lang: 'ui/sidebar' }}</a>
+            </li>
+            <li>
+                <a href
+                   ng-click="addMinder('addminder')">{{ 'addminder' | lang: 'ui/sidebar' }}</a>
+            </li>
+            <li>
+                <a href
+                   ng-click="expandAll()">{{ 'expandAll' | lang: 'ui/sidebar' }}</a>
+            </li>
+            <li>
+                <a href
+                   ng-click="collapseAll()">{{ 'collapseAll' | lang: 'ui/sidebar' }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-tree id="tree-root">
+  <ol ui-tree-nodes ng-model="nodes">
+    <li role="presentation" ng-repeat="node in nodes" ui-tree-node data-nodrag data-drag-enabled="false"  ng-include="'ui/directive/sidebar/sidebaritem.html'"></li>
+  </ol>
+</div>

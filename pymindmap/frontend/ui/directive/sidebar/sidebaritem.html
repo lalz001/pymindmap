@@ -1,0 +1,44 @@
+<!-- <div ui-tree-handle></div> -->
+<div class="pull-left btn btn-xs" ng-if="node.type==='folder'" data-nodrag ng-click="toggle(this)">
+  <span
+    class="glyphicon"
+    ng-class="{
+      'glyphicon glyphicon-folder-close': collapsed,
+      'glyphicon glyphicon-folder-open': !collapsed
+    }">
+  </span>
+</div>
+<!-- <div class="pull-left btn btn-xs" ng-if="node.type==='minder'" data-nodrag >
+  <span class="glyphicon glyphicon-file"></span>
+</div> -->
+<a ng-if="node.type==='folder'"  >{{node.name}}</a>
+<a href="#" ng-if="node.type==='minder'" ui-sref="printers({kityID:'{{node.hashpath}}'})" ui-sref-opts="{reload: true}">{{node.name}}</a>
+<div class="btn-group-vertical" dropdown is-open="isopen">
+    <button type="button"
+            class="btn btn-default nav-btn dropdown-toggle"
+            dropdown-toggle>
+        <span class="glyphicon glyphicon-pencil hide-span"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a href
+               ng-click="addMinder('rename',node.path,node.sub,node.type)">{{ 'rename' | lang: 'ui/sidebar' }}</a>
+        </li>
+        <li>
+            <a href
+               ng-click="addMinder('delete',node.path,node.sub,node.type)">{{ 'delete' | lang: 'ui/sidebar' }}</a>
+        </li>
+        <li ng-if="node.type==='minder'">
+          <a href
+             ng-click="download(node.sub,node.path)">{{ 'download' | lang: 'ui/sidebar' }}</a>
+        </li>
+        <!-- <li ng-if="node.type==='minder'">
+          <a href
+             ng-click="exportsvg()">{{ 'exportsvg' | lang: 'ui/sidebar' }}</a>
+        </li> -->
+    </ul>
+</div>
+<ul  ng-model="node.nodes" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'ui/directive/sidebar/sidebaritem.html'">
+  </li>
+</ul>

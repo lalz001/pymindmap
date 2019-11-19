@@ -1,0 +1,6 @@
+include MANIFEST.in
+include README.rst
+include pymindmap/requirements.txt
+recursive-include docs *
+recursive-include pymindmap/frontend/dist *
+recursive-include pymindmap/templates *

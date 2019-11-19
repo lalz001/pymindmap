@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group" id="link-url-wrap">
+            <label for="link-name">名字：</label>
+            <input type="text"
+                    class="form-control"
+                    ng-model="sub"
+                    ng-focus="this.value = sub"
+                    id="link-name"
+                    ng-disabled = "editsub"
+                    placeholder="必填：天天都有好心情">
+        </div>
+        <div class="form-group" id="link-url-wrap">
+            <label for="link-name">地址：</label>
+        </div>
+        <div class="select form-group" id="link-url-wrap">
+            <select  ng-if="!editpath" ng-model="selectedplace.selected" ng-options="x for x in places"></select>
+            <input  ng-if="editpath" type="text" class="form-control" ng-model="path" ng-disabled = "editpath">
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>仓颉</title>
+
+    <link href="{{ static_url('favicon.ico') }}" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="{{ static_url('web/bootstrap.min.css') }} "> 
+    <link rel="stylesheet" href="{{ static_url('web/angular-ui-tree.min.css') }} "> 
+    <link rel="stylesheet" href="{{ static_url('web/codemirror.min.css') }} "> 
+    <link rel="stylesheet" href="{{ static_url('web/hotbox.css') }} "> 
+    <link rel="stylesheet" href="{{ static_url('web/kityminder.core.css') }} "> 
+    <link rel="stylesheet" href="{{ static_url('web/color-picker.css') }}" >
+    <link rel="stylesheet" href="{{ static_url('kityminder.editor.min.css') }}">
+
+    <style>
+        html {
+            background: aliceblue;
+        }
+
+    </style>
+</head>
+
+<body ng-app="myapp">
+    <div id="mobile-nav-menu" ng-show="$root.toggleNav">
+        <sidebar></sidebar>
+    </div>
+    <div id="content" ng-class="{'active': !$root.toggleNav}">
+        <div ui-view></div>
+    </div>
+</body>
+<script src="{{ static_url('web/jquery.min.js') }}"></script>
+<script src="{{ static_url('web/angular.min.js') }}"></script>
+<script src="{{ static_url('web/angular-ui-router.min.js') }}"></script>
+<script src="{{ static_url('web/angular-websocket.min.js') }}"></script>
+<script src="{{ static_url('web/ui-bootstrap-tpls.min.js') }}"></script>
+<script src="{{ static_url('web/angular-ui-tree.min.js') }}"></script>
+<script src="{{ static_url('web/codemirror.min.js') }}"></script>
+<script src="{{ static_url('web/python.min.js') }}"></script>
+<script src="{{ static_url('web/sql.min.js') }}"></script>
+<script src="{{ static_url('web/comment.js') }}"></script>
+<script src="{{ static_url('web/matchbrackets.min.js') }}"></script>
+<script src="{{ static_url('web/ui-codemirror.min.js') }}"></script>
+<script src="{{ static_url('web/marked.min.js') }}"></script>
+<script src="{{ static_url('web/lodash.min.js') }}"></script>
+<script src="{{ static_url('web/kity.min.js') }}"></script>
+<script src="{{ static_url('web/hotbox.min.js') }}"></script>
+<script src="{{ static_url('web/kityminder.core.min.js') }}"></script>
+<script src="{{ static_url('web/color-picker.js') }}"></script>
+<script src="{{ static_url('web/hammer.min.js') }}"></script>
+<script src="{{ static_url('kityminder.editor.min.js') }}"></script>
+
+<script>
+    var app = angular.module('myapp',['ui.router','kityminderEditor'])
+        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+            $urlRouterProvider.otherwise('printers?kityID=default');
+            $stateProvider
+            .state('printers',{
+                url: '/printers?kityID',
+                cache:false,
+                template:'<kityminder-editor></kityminder-editor>'
+            })
+
+        }])
+    app.run(fun)
+    function fun($rootScope){	    
+     }
+        
+</script>
+
+</html>

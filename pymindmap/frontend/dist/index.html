@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>仓颉</title>
+
+    <link href="./favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="./web/bootstrap.min.css "> 
+    <link rel="stylesheet" href="./web/angular-ui-tree.min.css "> 
+    <link rel="stylesheet" href="./web/codemirror.min.css "> 
+    <link rel="stylesheet" href="./web/hotbox.css "> 
+    <link rel="stylesheet" href="./web/kityminder.core.css "> 
+    <link rel="stylesheet" href="./web/color-picker.css" >
+    <link rel="stylesheet" href="./kityminder.editor.min.css">
+
+    <style>
+        html {
+            background: aliceblue;
+        }
+
+    </style>
+</head>
+
+<body ng-app="myapp">
+    <div id="mobile-nav-menu" ng-show="$root.toggleNav">
+        <sidebar></sidebar>
+    </div>
+    <div id="content" ng-class="{'active': !$root.toggleNav}">
+        <div ui-view></div>
+    </div>
+</body>
+<script src="./web/jquery.min.js"></script>
+<script src="./web/angular.min.js"></script>
+<script src="./web/angular-ui-router.min.js"></script>
+<script src="./web/angular-websocket.min.js"></script>
+<script src="./web/ui-bootstrap-tpls.min.js"></script>
+<script src="./web/angular-ui-tree.min.js"></script>
+<script src="./web/codemirror.min.js"></script>
+<script src="./web/python.min.js"></script>
+<script src="./web/sql.min.js"></script>
+<script src="./web/comment.js"></script>
+<script src="./web/matchbrackets.min.js"></script>
+<script src="./web/ui-codemirror.min.js"></script>
+<script src="./web/marked.min.js"></script>
+<script src="./web/lodash.min.js"></script>
+<script src="./web/kity.min.js"></script>
+<script src="./web/hotbox.min.js"></script>
+<script src="./web/kityminder.core.min.js"></script>
+<script src="./web/color-picker.js"></script>
+<script src="./web/hammer.min.js"></script>
+<script src="./kityminder.editor.min.js"></script>
+
+<script>
+    var app = angular.module('myapp',['ui.router','kityminderEditor'])
+        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+            $urlRouterProvider.otherwise('printers?kityID=default');
+            $stateProvider
+            .state('printers',{
+                url: '/printers?kityID',
+                cache:false,
+                template:'<kityminder-editor></kityminder-editor>'
+            })
+
+        }])
+    app.run(fun)
+    function fun($rootScope){	    
+     }
+        
+</script>
+
+</html>

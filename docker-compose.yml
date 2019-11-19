@@ -1,0 +1,46 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:1.13.7
+    restart: always
+    links:
+        - frontend:frontend
+        - backend:backend
+    volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        - ./pymindmap/frontend/dist:/usr/share/nginx/html
+    ports:
+        - 5001:80
+  frontend:
+    build:
+      context: ./pymindmap/frontend
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+       - ./pymindmap/frontend:/home/code
+       - /home/code/node_modules
+    command: npm run watch
+    # ports:
+    #   - 5555:3000
+  backend:
+    build:
+      context: pymindmap
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+       - ./pymindmap:/home/code/pymindmap
+      # - .:/home/code
+       - ./docs:/home/code/docs
+       - ./README.md:/home/code/README.md
+       - ./setup.py:/home/code/setup.py
+       - ./resources:/home/code/resources
+       - ./MANIFEST.in:/home/code/MANIFEST.in
+
+    # command:  python -m pymindmap --mindmappath=pymindmap/resources/minders --port=5555 --picturepath=pymindmap/resources/pictures
+    command:  python -m pymindmap 
+    
+    # command:  top
+    ports:
+      - 5555:5555
+
+
