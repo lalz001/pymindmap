@@ -157,7 +157,7 @@ def _addmd(md,kityId,id):
         }
     }))
     
-class exec(tornado.web.RequestHandler): 
+class execcode(tornado.web.RequestHandler): 
     runningpool={}
     
     def get(self):

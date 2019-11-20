@@ -23,8 +23,8 @@ handlers = [
     (r"/", index.index),  
     # minder API
     (r"/api/minder",minder.minder),
-    (r"/api/exec",minder.exec),
-    (r"/api/exec/([^/]+)?", minder.exec),
+    (r"/api/exec",minder.execcode),
+    (r"/api/exec/([^/]+)?", minder.execcode),
     (r"/api/socketminder",minder.socketminder),
     (r"/api/callsocketminder",minder.callsocketHandler),
     # folder API

@@ -35,6 +35,7 @@ services:
        - ./setup.py:/home/code/setup.py
        - ./resources:/home/code/resources
        - ./MANIFEST.in:/home/code/MANIFEST.in
+       - ./setup.cfg:/home/code/setup.cfg
 
     # command:  python -m pymindmap --mindmappath=pymindmap/resources/minders --port=5555 --picturepath=pymindmap/resources/pictures
     # command:  python -m pymindmap 
