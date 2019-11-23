@@ -70,8 +70,11 @@ def converting(source_num, source_hex, target_hex):
             result = str_b[quotient_int] + result
     return result
 def getrandom():
-    data = int(round(time.time() * 1000)) * 1000000 + math.floor(random.random()* 1000000)
-#     print(str(data))
+    a=  int(round(time.time() * 1000)) 
+    b = int(math.floor(random.random()* 1000000))
+    # data = int(round(time.time() * 1000)) * 1000000 + math.floor(random.random()* 1000000)
+    data = str(a) + str(b)
+    # print(str(data),a,b)
     return converting(data,10,36)
 
 class folder(tornado.web.RequestHandler):  

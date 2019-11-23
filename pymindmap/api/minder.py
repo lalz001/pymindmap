@@ -8,12 +8,13 @@ from tornado import gen
 from tempfile import NamedTemporaryFile
 import subprocess
 import time
-import fcntl
+# import fcntl
 import functools
 import os
 import sys
 import hashlib
 import re
+import platform
 
 from ..options import default_options
 _timeout = default_options.timeout
@@ -43,8 +44,8 @@ class GenericSubprocess (object):
         self.streams = [ (self.pipe.stdout.fileno(), []),
                              (self.pipe.stderr.fileno(), []) ]
         for fd, d in self.streams:
-            flags = fcntl.fcntl(fd, fcntl.F_GETFL)| os.O_NDELAY
-            fcntl.fcntl( fd, fcntl.F_SETFL, flags)
+        #     flags = fcntl.fcntl(fd, fcntl.F_GETFL)| os.O_NDELAY
+        #     fcntl.fcntl( fd, fcntl.F_SETFL, flags)
             self.ioloop.add_handler( fd,
                                      self.stat,
                                      self.ioloop.READ|self.ioloop.ERROR)
@@ -111,7 +112,7 @@ class minder(tornado.web.RequestHandler):
     # base = os.path.dirname(__file__)
     base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     # with open( os.path.join(base, 'default.km') ,'r') as f:
-    with open(  os.path.join(base, 'templates/default.km') ,'r') as f:
+    with open(  os.path.join(base, 'templates/default.km') ,'rb' ) as f:
         default = json.loads(f.read())
     def get(self):  
         # 判断是否包含minder的idreturn
@@ -161,10 +162,16 @@ class execcode(tornado.web.RequestHandler):
     runningpool={}
     
     def get(self):
+        if(platform.system()=='Windows'):
+            print('Windows系统不支持执行子任务')
+            return
         self.finish({'runningpool':list(self.runningpool.keys())})
 
     @gen.coroutine 
     def post(self):
+        if(platform.system()=='Windows'):
+            print('Windows系统不支持执行子任务')
+            return
         kityId = self.get_arguments('kityID')
         if len(kityId)==0:
             return 
@@ -203,6 +210,9 @@ class execcode(tornado.web.RequestHandler):
         # Subprocess( run, timeout=600, args=[ "python", path ,kityId ,id ] ).start()
 
     def delete(self,key):
+        if(platform.system()=='Windows'):
+            print('Windows系统不支持执行子任务')
+            return
         if self.runningpool.get(key):
             self.runningpool[key].cancel()
 
