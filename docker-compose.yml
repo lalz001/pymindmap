@@ -30,12 +30,13 @@ services:
     volumes:
        - ./pymindmap:/home/code/pymindmap
       # - .:/home/code
-       - ./docs:/home/code/docs
+      #  - ./docs:/home/code/docs
        - ./README.md:/home/code/README.md
        - ./setup.py:/home/code/setup.py
        - ./resources:/home/code/resources
        - ./MANIFEST.in:/home/code/MANIFEST.in
        - ./setup.cfg:/home/code/setup.cfg
+
 
     # command:  python -m pymindmap --mindmappath=pymindmap/resources/minders --port=5555 --picturepath=pymindmap/resources/pictures
     # command:  python -m pymindmap 
