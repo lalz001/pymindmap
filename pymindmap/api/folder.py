@@ -186,8 +186,8 @@ class folder(tornado.web.RequestHandler):
 </script>
 </html>
 """          
-            with open(path,'r') as f:
-                minderdata = f.read()
+            with open(path,'rb') as f:
+                minderdata = f.read().decode()
             self.write(template.replace('####minder####',minderdata))
 
         
