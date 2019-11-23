@@ -86,12 +86,7 @@ class folder(tornado.web.RequestHandler):
             a = {'folder':get_filetrunk(mindmappath)}
         self.finish(a)  
     def post(self):
-        body = self.request.body
-        try:
-            body = body.decode('utf8')
-        except:
-            pass
-        body = json.loads(body)
+        body = json.loads(self.request.body.decode())
         name = body["name"]
         path = body["path"]
         method = body["method"]
@@ -102,7 +97,7 @@ class folder(tornado.web.RequestHandler):
         if method == 'addminder':
             minder = {"minder":{"root":{"data":{'id': getrandom(), 'created': int(round(time.time() * 1000)), 'text': "中心主题"},"children":[]},"template":"right","theme":"fresh-green-compat","version":"1.4.43"},"buildno":0,"resultdata":{}}
             # print(minder)
-            with open(os.path.join(path,name),'wb') as f:
+            with open(os.path.join(path,name),'w') as f:
                 f.write(json.dumps(minder))
             return
         if method == 'renamefolder':
@@ -120,7 +115,7 @@ class folder(tornado.web.RequestHandler):
             os.remove(path)
             return
         if method == 'downloadminder':
-            template=u"""
+            template="""
 <!DOCTYPE html>
 <html>
 <head>
@@ -194,10 +189,10 @@ class folder(tornado.web.RequestHandler):
             with open(path,'rb') as f:
                 minderdata = f.read()
             try:
-                minderdata = minderdata.decode('utf8')
+                minderdata = minderdata.decode()
             except:
                 pass
-            # print(type(minderdata),type(minderdata) == 'unicode',minderdata)
+            # print(type(minderdata),minderdata)
             self.write(template.replace('####minder####',minderdata))
 
         
