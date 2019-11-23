@@ -120,7 +120,7 @@ class minder(tornado.web.RequestHandler):
             id = self.get_arguments('kityID')[0]
             # 判断minder的id是否在'resources/minders'文件夹中
             if get_filepath(id):
-                with open(get_filepath(id),'r') as f:
+                with open(get_filepath(id),'rb') as f:
                     dic = json.loads(f.read())
                 return self.finish(dic)
         return self.finish(self.default)    
