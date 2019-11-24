@@ -15,6 +15,7 @@ import sys
 import hashlib
 import re
 import platform
+import chardet
 
 from ..options import default_options
 _timeout = default_options.timeout
@@ -113,7 +114,8 @@ class minder(tornado.web.RequestHandler):
     base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     # with open( os.path.join(base, 'default.km') ,'r') as f:
     with open(  os.path.join(base, 'templates/default.km') ,'rb' ) as f:
-        default = json.loads(f.read())
+        default = f.read()
+        default = json.loads(default.decode(chardet.detect(default)["encoding"]))
     def get(self):  
         # 判断是否包含minder的idreturn
         if self.get_arguments('kityID'):
@@ -121,7 +123,8 @@ class minder(tornado.web.RequestHandler):
             # 判断minder的id是否在'resources/minders'文件夹中
             if get_filepath(id):
                 with open(get_filepath(id),'rb') as f:
-                    dic = json.loads(f.read())
+                    dic = f.read()
+                    dic = json.loads(dic.decode(chardet.detect(dic)["encoding"]))
                 return self.finish(dic)
         return self.finish(self.default)    
         # with open( os.path.join(base, 'deaultminder.km') ,'r') as f:

@@ -7,23 +7,28 @@ import time
 import math
 import random
 import hashlib
-
-
+import chardet
+import sys
 from ..options import default_options
 mindmappath = default_options.mindmappath
 if not os.path.exists(mindmappath):
     print('create mindmappath folder')
     os.makedirs(mindmappath)
 
-
+python_version_2 = sys.version_info< (3, 0)
 
 def get_filedetail(dirname):
+    if python_version_2 :
+        hashpath=hashlib.md5(os.path.abspath(dirname)).hexdigest()
+    else:
+        hashpath=hashlib.md5(os.path.abspath(dirname).encode('utf-8')).hexdigest()
+
     return {
       'name':os.path.basename(dirname).strip(".km"),
       'sub': os.path.basename(dirname) ,
       'type': "folder" if os.path.isdir(dirname) else "minder",
       'path':os.path.abspath(dirname) ,
-      'hashpath':hashlib.md5(os.path.abspath(dirname).encode('utf8')).hexdigest(),
+      'hashpath':hashpath,
       'nodes':[get_filedetail(dirname + '/' + name) for name in os.listdir(dirname)] if os.path.isdir(dirname) else []
     }
 def get_filetrunk(dirname):
@@ -39,8 +44,11 @@ def get_filepath(id):
     dirname = mindmappath
     for root, dirs, files in os.walk(dirname, topdown=False):
         for name in files:
-            path = os.path.join(os.path.abspath(root), name)
-            if hashlib.md5(path.encode('utf8')).hexdigest() == id:
+            if python_version_2 :
+                path = os.path.join(os.path.abspath(root), name)
+            else:
+                path = os.path.join(os.path.abspath(root), name).encode('utf-8')            
+            if hashlib.md5(path).hexdigest() == id:
                 return path
 
 
@@ -86,7 +94,7 @@ class folder(tornado.web.RequestHandler):
             a = {'folder':get_filetrunk(mindmappath)}
         self.finish(a)  
     def post(self):
-        body = json.loads(self.request.body.decode())
+        body = json.loads(self.request.body.decode(chardet.detect(self.request.body)["encoding"]))
         name = body["name"]
         path = body["path"]
         method = body["method"]
@@ -188,10 +196,8 @@ class folder(tornado.web.RequestHandler):
 """          
             with open(path,'rb') as f:
                 minderdata = f.read()
-            try:
-                minderdata = minderdata.decode()
-            except:
-                pass
+            if not python_version_2 :
+                minderdata = minderdata.decode(chardet.detect(minderdata)["encoding"])  
             # print(type(minderdata),minderdata)
             self.write(template.replace('####minder####',minderdata))
 
