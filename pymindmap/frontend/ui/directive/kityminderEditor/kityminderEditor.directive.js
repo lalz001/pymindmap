@@ -26,9 +26,9 @@ angular.module('kityminderEditor')
 					});
 					
 					// minder.setStatus('readonly')
-					setTimeout(function() {
-						minder.removeAllSelectedNodes().execCommand('hand')
-					}, 300);
+					// setTimeout(function() {
+					// 	minder.removeAllSelectedNodes().execCommand('hand')
+					// }, 300);
 					minderService.executeCallback();
 					// minder.setStatus('normal',true)
 					

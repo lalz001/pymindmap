@@ -2113,7 +2113,7 @@ angular.module('kityminderEditor').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('ui/directive/kityminderEditor/kityminderEditor.html',
-    "<div class=\"minder-editor-container\"><div class=\"top-tab\" top-tab=\"minder\" editor=\"editor\" ng-if=\"minder\" ng-show=\"$root.viewmode\"></div><div search-box minder=\"minder\" ng-if=\"minder\"></div><div class=\"minder-editor\" ng-class=\"{'active': !$root.viewmode}\"></div><div class=\"km-note\" note-editor minder=\"minder\" ng-if=\"minder\"></div><div class=\"note-previewer\" note-previewer ng-if=\"minder\"></div><div class=\"navigator\" navigator minder=\"minder\" ng-if=\"minder\"></div></div>"
+    "<div class=\"minder-editor-container\"><div class=\"top-tab\" top-tab=\"minder\" editor=\"editor\" ng-if=\"minder\" ng-show=\"!$root.viewmode\"></div><div search-box minder=\"minder\" ng-if=\"minder\"></div><div class=\"minder-editor\" ng-class=\"{'active': $root.viewmode}\"></div><div class=\"km-note\" note-editor minder=\"minder\" ng-if=\"minder\"></div><div class=\"note-previewer\" note-previewer ng-if=\"minder\"></div><div class=\"navigator\" navigator minder=\"minder\" ng-if=\"minder\"></div></div>"
   );
 
 
@@ -3968,9 +3968,9 @@ angular.module('kityminderEditor')
 					});
 					
 					// minder.setStatus('readonly')
-					setTimeout(function() {
-						minder.removeAllSelectedNodes().execCommand('hand')
-					}, 300);
+					// setTimeout(function() {
+					// 	minder.removeAllSelectedNodes().execCommand('hand')
+					// }, 300);
 					minderService.executeCallback();
 					// minder.setStatus('normal',true)
 					
