@@ -20,6 +20,8 @@ import chardet
 from ..options import default_options
 _timeout = default_options.timeout
 
+python_version_2 = sys.version_info< (3, 0)
+
 class GenericSubprocess (object):
     def __init__ ( self, timeout=-1, **popen_args ):
         self.args = dict()
@@ -90,8 +92,12 @@ class GenericSubprocess (object):
     def status(self):
         return self.pipe.returncode
     def get_output(self, index ):
+        if python_version_2:
+            return "".join((_ for _ in self.streams[index][1]))
+        else:
+            return "".join((_.decode() for _ in self.streams[index][1]))
         # print(self.streams[index])
-        return "".join((_.decode() for _ in self.streams[index][1]))
+        
     def on_finish(self):
         raise NotImplemented()
 class Subprocess (GenericSubprocess):
@@ -179,7 +185,7 @@ class execcode(tornado.web.RequestHandler):
         if len(kityId)==0:
             return 
         kityId = kityId[0] 
-        request = json.loads(self.request.body.decode())
+        request = json.loads(self.request.body.decode(chardet.detect(self.request.body)["encoding"]))
         id = request['id']
         code = request.get("code",'')
         # print(kityId,id)
@@ -199,10 +205,12 @@ class execcode(tornado.web.RequestHandler):
             if len(stdout)!=0:
                 _addmd(str(stdout),kityId,id)
             _sendstatus('finish',kityId,id)
-            
         # with open(path,'w') as f:
         with NamedTemporaryFile('w+t',delete=False) as f:
-            f.write(code)
+            if python_version_2:
+                f.write(code.encode('utf8'))
+            else:
+                f.write(code)
             path = f.name
         self.runningpool[key] = Subprocess( run, timeout=_timeout, args=[ "python", path ,kityId ,id ,str(default_options.port) ] )
         self.runningpool[key].start()
