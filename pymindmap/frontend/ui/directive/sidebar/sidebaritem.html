@@ -12,7 +12,7 @@
   <span class="glyphicon glyphicon-file"></span>
 </div> -->
 <a ng-if="node.type==='folder'"  >{{node.name}}</a>
-<a href="#" ng-if="node.type==='minder'" ui-sref="printers({kityID:'{{node.hashpath}}'})" ui-sref-opts="{reload: true}">{{node.name}}</a>
+<a href="#" ng-class="{'active': match(node.hashpath)}"  ng-if="node.type==='minder'" ui-sref="printers({kityID:'{{node.hashpath}}'})" ui-sref-opts="{reload: true}">{{node.name}}</a>
 <div class="btn-group-vertical" dropdown is-open="isopen">
     <button type="button"
             class="btn btn-default nav-btn dropdown-toggle"
@@ -32,10 +32,10 @@
           <a href
              ng-click="download(node.sub,node.path)">{{ 'download' | lang: 'ui/sidebar' }}</a>
         </li>
-        <!-- <li ng-if="node.type==='minder'">
+        <li ng-if="node.type==='minder' && match(node.hashpath)">
           <a href
-             ng-click="exportsvg()">{{ 'exportsvg' | lang: 'ui/sidebar' }}</a>
-        </li> -->
+             ng-click="downloadmd(node.sub)">{{ 'downloadmd' | lang: 'ui/sidebar' }}</a>
+        </li>
     </ul>
 </div>
 <ul  ng-model="node.nodes" ng-class="{hidden: collapsed}">

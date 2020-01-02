@@ -1,10 +1,14 @@
 angular.module('kityminderEditor')
-	.directive('sidebar', ['$modal','folder','$state',function ($modal,folder,$state) {
+	.directive('sidebar', ['$modal','folder','$state','$stateParams',function ($modal,folder,$state,$stateParams) {
 		return {
 			restrict: 'E',
 			templateUrl: 'ui/directive/sidebar/sidebar.html',
 			link: function($scope) {
 
+				$scope.kityID = function(){
+					return $stateParams.kityID
+				};
+				console.log($stateParams);
 				$scope.collapseAll = function () {
 					$scope.$broadcast('angular-ui-tree:collapse-all');
 				};
@@ -14,7 +18,15 @@ angular.module('kityminderEditor')
 				};
 				$scope.download = function(name,path){
 					folder.downloadminder(name,path)
-				}
+				};
+				$scope.match = function(path){
+					return path===$stateParams.kityID
+				};
+				$scope.downloadmd = function(name){
+					// console.log($stateParams.kityID);
+					folder.downloadmd(name)
+				};
+				
 				// $scope.exportsvg = function(){
 				// 	console.log
 				// }

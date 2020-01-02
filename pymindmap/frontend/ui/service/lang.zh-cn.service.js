@@ -309,7 +309,8 @@ angular.module('kityminderEditor')
 						'collapseAll':'全部折叠',
 						'rename':'重命名',
 						'delete':'删除',
-						'download':'下载',
+						'download':'下载html',
+						'downloadmd':'下载md',
 						'exportsvg':'导出svg'
 					},
 

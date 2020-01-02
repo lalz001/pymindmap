@@ -32,6 +32,18 @@ angular.module('kityminderEditor')
           })
           // console.log(name,path)
         }
+        var downloadmd = function(name){
+          editor.minder.exportData('markdown').then(function(response){
+            var a = document.createElement('a');
+            a.setAttribute('style', 'display:none');
+            var objectUrl = window.URL.createObjectURL(new Blob([response]))
+            a.setAttribute('href', objectUrl);
+            a.setAttribute('download', name+'.md');
+            a.click()
+            $(a).remove();
+            window.URL.revokeObjectURL(objectUrl);
+          })
+        }
 
         var getnodes= function(fn){
           $http.get(url,{               
@@ -65,6 +77,7 @@ angular.module('kityminderEditor')
           addminder:addminder,
           delminder:delminder,
           renameminder:renameminder,
-          downloadminder:downloadminder
+          downloadminder:downloadminder,
+          downloadmd:downloadmd
         }
     }]);

@@ -1593,6 +1593,12 @@ div a.theme-item {
 #mobile-nav-menu .nav-btn:hover {
   background-color: black;
 }
+#mobile-nav-menu a {
+  color: #000;
+}
+#mobile-nav-menu .active {
+  background: #87c9df;
+}
 #content {
   background: whitesmoke;
   width: 80%;

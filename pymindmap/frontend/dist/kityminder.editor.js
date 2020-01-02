@@ -2202,7 +2202,7 @@ angular.module('kityminderEditor').run(['$templateCache', function($templateCach
     "<div class=\"pull-left btn btn-xs\" ng-if=\"node.type==='folder'\" data-nodrag ng-click=\"toggle(this)\"><span class=\"glyphicon\" ng-class=\"{\n" +
     "      'glyphicon glyphicon-folder-close': collapsed,\n" +
     "      'glyphicon glyphicon-folder-open': !collapsed\n" +
-    "    }\"></span></div><a ng-if=\"node.type==='folder'\">{{node.name}}</a> <a href=\"#\" ng-if=\"node.type==='minder'\" ui-sref=\"printers({kityID:'{{node.hashpath}}'})\" ui-sref-opts=\"{reload: true}\">{{node.name}}</a><div class=\"btn-group-vertical\" dropdown is-open=\"isopen\"><button type=\"button\" class=\"btn btn-default nav-btn dropdown-toggle\" dropdown-toggle><span class=\"glyphicon glyphicon-pencil hide-span\"></span></button><ul class=\"dropdown-menu\" role=\"menu\"><li><a href ng-click=\"addMinder('rename',node.path,node.sub,node.type)\">{{ 'rename' | lang: 'ui/sidebar' }}</a></li><li><a href ng-click=\"addMinder('delete',node.path,node.sub,node.type)\">{{ 'delete' | lang: 'ui/sidebar' }}</a></li><li ng-if=\"node.type==='minder'\"><a href ng-click=\"download(node.sub,node.path)\">{{ 'download' | lang: 'ui/sidebar' }}</a></li></ul></div><ul ng-model=\"node.nodes\" ng-class=\"{hidden: collapsed}\"><li ng-repeat=\"node in node.nodes\" ui-tree-node ng-include=\"'ui/directive/sidebar/sidebaritem.html'\"></li></ul>"
+    "    }\"></span></div><a ng-if=\"node.type==='folder'\">{{node.name}}</a> <a href=\"#\" ng-class=\"{'active': match(node.hashpath)}\" ng-if=\"node.type==='minder'\" ui-sref=\"printers({kityID:'{{node.hashpath}}'})\" ui-sref-opts=\"{reload: true}\">{{node.name}}</a><div class=\"btn-group-vertical\" dropdown is-open=\"isopen\"><button type=\"button\" class=\"btn btn-default nav-btn dropdown-toggle\" dropdown-toggle><span class=\"glyphicon glyphicon-pencil hide-span\"></span></button><ul class=\"dropdown-menu\" role=\"menu\"><li><a href ng-click=\"addMinder('rename',node.path,node.sub,node.type)\">{{ 'rename' | lang: 'ui/sidebar' }}</a></li><li><a href ng-click=\"addMinder('delete',node.path,node.sub,node.type)\">{{ 'delete' | lang: 'ui/sidebar' }}</a></li><li ng-if=\"node.type==='minder'\"><a href ng-click=\"download(node.sub,node.path)\">{{ 'download' | lang: 'ui/sidebar' }}</a></li><li ng-if=\"node.type==='minder' && match(node.hashpath)\"><a href ng-click=\"downloadmd(node.sub)\">{{ 'downloadmd' | lang: 'ui/sidebar' }}</a></li></ul></div><ul ng-model=\"node.nodes\" ng-class=\"{hidden: collapsed}\"><li ng-repeat=\"node in node.nodes\" ui-tree-node ng-include=\"'ui/directive/sidebar/sidebaritem.html'\"></li></ul>"
   );
 
 
@@ -2374,6 +2374,18 @@ angular.module('kityminderEditor')
           })
           // console.log(name,path)
         }
+        var downloadmd = function(name){
+          editor.minder.exportData('markdown').then(function(response){
+            var a = document.createElement('a');
+            a.setAttribute('style', 'display:none');
+            var objectUrl = window.URL.createObjectURL(new Blob([response]))
+            a.setAttribute('href', objectUrl);
+            a.setAttribute('download', name+'.md');
+            a.click()
+            $(a).remove();
+            window.URL.revokeObjectURL(objectUrl);
+          })
+        }
 
         var getnodes= function(fn){
           $http.get(url,{               
@@ -2407,7 +2419,8 @@ angular.module('kityminderEditor')
           addminder:addminder,
           delminder:delminder,
           renameminder:renameminder,
-          downloadminder:downloadminder
+          downloadminder:downloadminder,
+          downloadmd:downloadmd
         }
     }]);
 angular.module('kityminderEditor')
@@ -2721,7 +2734,8 @@ angular.module('kityminderEditor')
 						'collapseAll':'全部折叠',
 						'rename':'重命名',
 						'delete':'删除',
-						'download':'下载',
+						'download':'下载html',
+						'downloadmd':'下载md',
 						'exportsvg':'导出svg'
 					},
 
@@ -4989,12 +5003,16 @@ angular.module('kityminderEditor')
         }
     });
 angular.module('kityminderEditor')
-	.directive('sidebar', ['$modal','folder','$state',function ($modal,folder,$state) {
+	.directive('sidebar', ['$modal','folder','$state','$stateParams',function ($modal,folder,$state,$stateParams) {
 		return {
 			restrict: 'E',
 			templateUrl: 'ui/directive/sidebar/sidebar.html',
 			link: function($scope) {
 
+				$scope.kityID = function(){
+					return $stateParams.kityID
+				};
+				console.log($stateParams);
 				$scope.collapseAll = function () {
 					$scope.$broadcast('angular-ui-tree:collapse-all');
 				};
@@ -5004,7 +5022,15 @@ angular.module('kityminderEditor')
 				};
 				$scope.download = function(name,path){
 					folder.downloadminder(name,path)
-				}
+				};
+				$scope.match = function(path){
+					return path===$stateParams.kityID
+				};
+				$scope.downloadmd = function(name){
+					// console.log($stateParams.kityID);
+					folder.downloadmd(name)
+				};
+				
 				// $scope.exportsvg = function(){
 				// 	console.log
 				// }
