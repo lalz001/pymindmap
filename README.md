@@ -6,6 +6,11 @@ pymindmap是一个由python控制的脑图编辑工具
 首先感谢百度开源的百度脑图https://github.com/fex-team/kityminder-editor
 个人针对其做了python后端代码和一部分自己需要的功能
 
+## 预览
+[可以用移动端观看](https://lalz001.github.io/public/%E6%8C%87%E6%A0%87%E6%8B%86%E8%A7%A3/#!/printers)
+
+[lalz001.github.io](https://github.com/lalz001/lalz001.github.io)为本人用此项目制作的个人脑图分享静态页面，大家也可自行搭建
+
 ## 安装并执行
 安装
 ```
