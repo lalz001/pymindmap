@@ -43,10 +43,6 @@ python -m pymindmap
 ### 构建
 python setup.py sdist
 
-### 联系作者
-问题和建议反馈：
-邮件组：lfz163453@163.com
-或者在issue下反馈
 
 ### 文档docs查看
 clone到本地后执行
